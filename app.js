@@ -8,10 +8,10 @@ let playerWin = 0;
 let computerWin = 0;
 let computerChoice;
 let playerChoice;
-let roundWinMessage;
+let playerCounter;
+let computerCounter;
 let gameWinMessage;
-
-console.log(gameCounter);
+let score;
 
 // function that returns random number based on array length
 
@@ -24,6 +24,7 @@ function getRandomChoice() {
 
 function playRound(computerChoice, playerChoice) {
 
+    let roundWinMessage;
     computerChoice = gameChoices[getRandomChoice()];
     playerChoice = prompt('Welcome to Rock, Paper, Scissors Game! Type: Rock, Paper or Scissors').toLowerCase();
 
@@ -38,9 +39,12 @@ function playRound(computerChoice, playerChoice) {
         playerWin += 1;
         roundWinMessage = `You win ! ${playerChoice} beats ${computerChoice}!`;
     }
-    console.log('Player win counter: ' + playerWin);
-    console.log('Computer win counter: ' + computerWin);
-    console.log(roundWinMessage);
+    
+    playerCounter = 'Player win counter: ' + playerWin;
+    computerCounter = 'Computer win counter: ' + computerWin;
+    
+    return roundWinMessage
+
 }
 
 // function based on gameCounter variable trigger playRound function
@@ -48,7 +52,12 @@ function playRound(computerChoice, playerChoice) {
 function game(counter) {
 
     for (let i = 0; i < counter; i++) {
-        playRound(computerChoice, playerChoice);
+        console.log('Games left: ' + gameCounter);
+        score = playRound(computerChoice, playerChoice);
+        gameCounter -= 1;
+        console.log(score);
+        console.log(playerCounter);
+        console.log(computerCounter);
     }
     
     if (playerWin > computerWin) {
