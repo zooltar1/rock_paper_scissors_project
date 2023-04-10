@@ -3,51 +3,68 @@
 // global variables
 
 let gameChoices = ['rock', 'paper', 'scissors'];
-let computerChoice;
-let playerChoice;
+let gameCounter = 5;
 let playerWin = 0;
 let computerWin = 0;
+let computerChoice;
+let playerChoice;
+let roundWinMessage;
+let gameWinMessage;
+
+console.log(gameCounter);
 
 // function that returns random number based on array length
 
-function getComputerChoice () {
+function getRandomChoice() {
     let randomChoice = Math.floor(Math.random(1)* gameChoices.length);
     return parseInt(randomChoice);
 }
 
 // function that checks who wins
 
-function playRound (computerChoice, playerChoice) {
-    
-    let message;
+function playRound(computerChoice, playerChoice) {
 
-    computerChoice = gameChoices[getComputerChoice()];
+    computerChoice = gameChoices[getRandomChoice()];
     playerChoice = prompt('Welcome to Rock, Paper, Scissors Game! Type: Rock, Paper or Scissors').toLowerCase();
 
     if (computerChoice == playerChoice) {
-        message = `Tie!`;
+        roundWinMessage = `Tie!`;
     } 
     else if (computerChoice === 'rock' && playerChoice === 'scissors' || computerChoice === 'paper' && playerChoice === 'rock' || computerChoice === 'scissors' && playerChoice === 'paper') {
         computerWin += 1;
-        message = `You lost. ${computerChoice} beats ${playerChoice}!`;
+        roundWinMessage = `You lost. ${computerChoice} beats ${playerChoice}!`;
     }
     else if (computerChoice === 'rock' && playerChoice === 'paper' || computerChoice === 'paper' && playerChoice === 'scissors' || computerChoice === 'scissors' && playerChoice === 'rock') {
         playerWin += 1;
-        message = `You win ! ${playerChoice} beats ${computerChoice}!`;
+        roundWinMessage = `You win ! ${playerChoice} beats ${computerChoice}!`;
     }
     console.log('Player win counter: ' + playerWin);
     console.log('Computer win counter: ' + computerWin);
-    console.log(message);
+    console.log(roundWinMessage);
 }
 
-// function called game() to play a 5 round game that keeps score and reports a winner or loser at the end
+// function based on gameCounter variable trigger playRound function
 
-function game() {
-    let gameCounter = 5;
+function game(counter) {
 
-    for (let i = 0; i < gameCounter; i++) {
+    for (let i = 0; i < counter; i++) {
         playRound(computerChoice, playerChoice);
     }
+    
+    if (playerWin > computerWin) {
+        gameWinMessage = `Congrats, You win the game!`;
+    }
+    else if (playerWin < computerWin) {
+        gameWinMessage = `You lost the game, try again!`
+    }
+    else {
+        gameWinMessage = `We have a draw!`;
+    }
+
+    console.log(gameWinMessage);
+
 }
 
-game();
+// start of the game
+
+game(gameCounter);
