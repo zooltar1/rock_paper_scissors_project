@@ -1,10 +1,12 @@
 // #Rock Paper Scissors Game#
 
-// create variable 'computerSelection' to store computer choice
-
-// create variable 'playerSelection' to store player choice, make it case insensitive
-
 // create function called 'getComputerChoice' that will randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’
+
+function getComputerChoice () {
+    let computerChoice = ['rock', 'paper', 'scissors'];
+    let randomChoice = Math.floor(Math.random(1)* 3);
+    return computerChoice[randomChoice];
+}
 
 // create function 'playRound' that plays a single round of Rock Paper Scissors, return result that declares the winner of the round like so: "You Lose! Paper beats Rock"
 
