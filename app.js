@@ -1,23 +1,42 @@
-// #Rock Paper Scissors Game#
+// #ROCK PAPER SCISSORS GAME#
 
-// create function called 'getComputerChoice' that will randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’
+// global variables
+
+let gameChoices = ['rock', 'paper', 'scissors'];
+let computerChoice;
+let playerChoice;
+
+// function that returns random number based on array length
 
 function getComputerChoice () {
-    let computerChoice = ['rock', 'paper', 'scissors'];
-    let randomChoice = Math.floor(Math.random(1)* 3);
-    return computerChoice[randomChoice];
+    let randomChoice = Math.floor(Math.random(1)* gameChoices.length);
+    return parseInt(randomChoice);
 }
 
-// create variable with computer choice
+// asign random choice from game choices to computerChoice variable
 
-let computerChoice = getComputerChoice();
+computerChoice = gameChoices[getComputerChoice()];
 
-// create variable to store user input, make it case insensitive
+// asign user input to playerChoice variable, made it case insensitive
 
-console.log('Let\'s play a game Rock Paper and Scissors. What\'s Your choice?');
+playerChoice = prompt('Type: Rock, Paper or Scissors').toLowerCase();
 
-let playerChoice = prompt('Type: Rock, Paper or Scissors', ' ').toLowerCase();
+// main function that checks who wins
 
-// create function 'playRound' that plays a single round of Rock Paper Scissors, return result that declares the winner of the round like so: "You Lose! Paper beats Rock"
+function playRound (computerChoice, playerChoice) {
+    
+    let message;
 
-// Write a NEW function called game(). Use the previous function inside of this one to play a 5 round game that keeps score and reports a winner or loser at the end.
+    if (computerChoice == playerChoice) {
+        message = `Tie!`;
+    } 
+    else if (computerChoice === 'rock' && playerChoice === 'scissors' || computerChoice === 'paper' && playerChoice === 'rock' || computerChoice === 'scissors' && playerChoice === 'paper') {
+        message = `You lost. ${computerChoice} beats ${playerChoice}!`;
+    }
+    else if (computerChoice === 'rock' && playerChoice === 'paper' || computerChoice === 'paper' && playerChoice === 'scissors' || computerChoice === 'scissors' && playerChoice === 'rock') {
+        message = `You win ! ${playerChoice} beats ${computerChoice}!`;
+    }
+    console.log(message);
+}
+
+playRound(computerChoice, playerChoice);
