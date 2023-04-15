@@ -2,16 +2,30 @@
 
 // global variables
 
-let gameChoices = ['rock', 'paper', 'scissors'];
-let gameCounter = 5;
-let playerWin = 0;
-let computerWin = 0;
+const gameChoices = ['rock', 'paper', 'scissors'];
 let computerChoice;
-let playerChoice;
-let playerCounter;
-let computerCounter;
-let gameWinMessage;
-let score;
+let gameCounter = 5;
+let playerScore = 0;
+let computerScore = 0;
+let gamePlayMessage = '';
+
+const rock = document.getElementById('rock');
+const paper = document.getElementById('paper');
+const scissors = document.getElementById('scissors');
+
+const result = document.getElementById('result');
+const counter = document.getElementById('counter');
+const scores = document.getElementById('scores');
+
+rock.addEventListener("click", function(){
+    game('rock');
+});
+paper.addEventListener("click", function(){
+    game('paper');
+});
+scissors.addEventListener("click", function(){
+    game('scissors');
+});
 
 // function that returns random number based on array length
 
@@ -20,60 +34,66 @@ function getRandomChoice() {
     return parseInt(randomChoice);
 }
 
-// function that checks who wins
+// function that check win/lose based on player argument
 
-function playRound(computerChoice, playerChoice) {
-
-    let roundWinMessage;
+function checkWhoWin(playerChoice) {
     computerChoice = gameChoices[getRandomChoice()];
-    playerChoice = prompt('Welcome to Rock, Paper, Scissors Game! Type: Rock, Paper or Scissors').toLowerCase();
 
-    if (computerChoice == playerChoice) {
-        roundWinMessage = `Tie!`;
-    } 
-    else if (computerChoice === 'rock' && playerChoice === 'scissors' || computerChoice === 'paper' && playerChoice === 'rock' || computerChoice === 'scissors' && playerChoice === 'paper') {
-        computerWin += 1;
-        roundWinMessage = `You lost. ${computerChoice} beats ${playerChoice}!`;
+    if (playerChoice == computerChoice) {
+        return 'tie'
+    } else if (playerChoice == 'rock' && computerChoice == 'scissors' || playerChoice == 'paper' && computerChoice == 'rock' || playerChoice == 'scissors' && computerChoice == 'paper') {
+        return 'win'
+    } else {
+        return 'loose'
     }
-    else if (computerChoice === 'rock' && playerChoice === 'paper' || computerChoice === 'paper' && playerChoice === 'scissors' || computerChoice === 'scissors' && playerChoice === 'rock') {
-        playerWin += 1;
-        roundWinMessage = `You win ! ${playerChoice} beats ${computerChoice}!`;
-    }
-    
-    playerCounter = 'Player win counter: ' + playerWin;
-    computerCounter = 'Computer win counter: ' + computerWin;
-    
-    return roundWinMessage
-
 }
 
-// function based on gameCounter variable trigger playRound function
+function playerWin(result) {
+    playerScore += result;
+    return playerScore
+}
 
-function game(counter) {
+function computerWin(result) {
+    computerScore += result;
+    return computerScore
+}
 
-    for (let i = 0; i < counter; i++) {
-        console.log('Games left: ' + gameCounter);
-        score = playRound(computerChoice, playerChoice);
-        gameCounter -= 1;
-        console.log(score);
-        console.log(playerCounter);
-        console.log(computerCounter);
+function gamePlayed(times) {
+    gameCounter -= times;
+    counter.innerText = `Games left: ${gameCounter}.`;
+    return gameCounter   
+}
+
+function gameResult(playerScore, computerScore) {
+    if (playerScore > computerScore) {
+        result.innerText = `Congratulations, You win the game!`;
     }
-    
-    if (playerWin > computerWin) {
-        gameWinMessage = `Congrats, You win the game!`;
-    }
-    else if (playerWin < computerWin) {
-        gameWinMessage = `You lost the game, try again!`
+    else if (playerScore < computerScore) {
+        result.innerText = `You lost the game, try again!`
     }
     else {
-        gameWinMessage = `We have a draw!`;
+        result.innerText = `It\'s a tie! Try again`;
     }
-
-    console.log(gameWinMessage);
-
 }
 
-// start of the game
-
-game(gameCounter);
+function game(playerChoice) {
+    if (gameCounter > 0) {
+        gamePlayed(1);
+        let gameResult = checkWhoWin(playerChoice);
+        if (gameResult == 'win') {
+            playerWin(1);
+            result.innerText = `You win!, ${playerChoice} beats ${computerChoice}`;
+        }
+        else if(gameResult == 'loose') {
+            computerWin(1);
+            result.innerText = `You loose!, ${computerChoice} beats ${playerChoice}`;
+        }
+        else {
+            result.innerText = `It\'s a Tie! You have ${playerChoice},and I have ${computerChoice}`;
+        }
+        scores.innerText = `Player score: ${playerScore}, Computer score: ${computerScore}.`
+    }
+    else {
+        gameResult(playerScore, computerScore);
+    }
+}
